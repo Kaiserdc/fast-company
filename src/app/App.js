@@ -1,10 +1,14 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import Users from './components/users'
-import SearchStatus from './components/searchStatus'
 import api from './api/index'
 
 const App = () => {
-    const [users, setUsers] = useState(api.users.fetchAll())
+    const [users, setUsers] = useState()
+    useEffect(() => {
+        api.users.fetchAll().then((data) => {
+            setUsers(data)
+        })
+    }, [])
     const handleDelete = (userId) => {
         setUsers((prevState) => prevState.filter((user) => user._id !== userId))
     }
@@ -15,15 +19,15 @@ const App = () => {
             )
         )
     }
-
     return (
         <div className="container-fluid">
-            <SearchStatus length={users.length} />
+            {users &&
             <Users
                 users={users}
                 onDelete={handleDelete}
                 onBookmark={handleToggleBookmark}
             />
+            }
         </div>
     )
 }

@@ -16,7 +16,15 @@ module.exports = {
         indent: ['error', 4],
         semi: ['error', 'never'],
         quotes: ['error', 'single'],
-        'space-before-function-paren': ['error', 'never'],
-        'object-curly-spacing': ['error', 'never']
+        'space-before-function-paren': [
+            'error',
+            {
+                anonymous: 'always',
+                named: 'never'
+            }
+        ],
+        'object-curly-spacing': ['error', 'never'],
+        'comma-dangle': ['error', 'only-multiline'],
+        'no-unused-vars': ['warn']
     }
 }
