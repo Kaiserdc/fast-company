@@ -13,7 +13,7 @@ module.exports = {
     },
     plugins: ['react'],
     rules: {
-        indent: ['error', 4],
+        indent: ['warn', 4],
         semi: ['error', 'never'],
         quotes: ['error', 'single'],
         'space-before-function-paren': [
@@ -23,8 +23,11 @@ module.exports = {
                 named: 'never'
             }
         ],
-        'object-curly-spacing': ['error', 'never'],
+        'object-curly-spacing': ['error', 'always'],
         'comma-dangle': ['error', 'only-multiline'],
-        'no-unused-vars': ['warn']
+        'no-unused-vars': ['warn'],
+        'spaced-comment': ['off'],
+        'no-trailing-spaces': ["error", { "skipBlankLines": true }]
+        
     }
 }

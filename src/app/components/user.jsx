@@ -3,7 +3,7 @@ import Quality from './quality'
 import Bookmark from './bookmark'
 import PropTypes from 'prop-types'
 
-const User = ({user, onDelete, onBookmark}) => {
+const User = ({ user, onDelete, onBookmark }) => {
     const getUserProfession = (profession) => {
         return <span key={profession._id}>{profession.name}</span>
     }

@@ -1,27 +1,15 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const Bookmark = ({status, onBookmark}) => {
-    const getBookmarkIconClasses = () => {
-        let classes = 'bi '
-        classes += status ? 'bi-heart-fill text-danger' : 'bi-heart text-muted'
-        return classes
-    }
+const BookMark = ({ status, ...rest }) => {
     return (
-        <>
-            <button
-                className={'btn btn-link'}
-                onClick={() => onBookmark(!status)}
-            >
-                <i className={getBookmarkIconClasses()}></i>
-            </button>
-        </>
+        <button className={'btn btn-link text-' + (status ? 'danger' : 'muted')} {...rest}>
+            <i className={'bi bi-heart' + (status ? '-fill' : '')}></i>
+        </button>
     )
 }
-
-Bookmark.propTypes = {
-    status: PropTypes.bool.isRequired,
-    onBookmark: PropTypes.func.isRequired
+BookMark.propTypes = {
+    status: PropTypes.bool,
 }
 
-export default Bookmark
+export default BookMark

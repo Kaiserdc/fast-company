@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import Users from './components/users'
 import api from './api/index'
 
@@ -15,19 +15,19 @@ const App = () => {
     const handleToggleBookmark = (id) => {
         setUsers((prevState) =>
             prevState.map((user) =>
-                user._id === id ? {...user, bookmark: !user.bookmark} : user
+                user._id === id ? { ...user, bookmark: !user.bookmark } : user
             )
         )
     }
     return (
         <div className="container-fluid">
-            {users &&
-            <Users
-                users={users}
-                onDelete={handleDelete}
-                onBookmark={handleToggleBookmark}
-            />
-            }
+            {users && (
+                <Users
+                    users={users}
+                    onDelete={handleDelete}
+                    onToggleBookmark={handleToggleBookmark}
+                />
+            )}
         </div>
     )
 }

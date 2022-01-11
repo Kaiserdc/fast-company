@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-const SearchStatus = ({length}) => {
+const SearchStatus = ({ length }) => {
     const declension = (number) => {
         const titles = ['человек', 'человека']
         const cases = [0, 0, 1, 1, 1, 0]
