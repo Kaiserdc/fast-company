@@ -1,33 +1,21 @@
-import React, { useEffect, useState } from 'react'
-import Users from './components/users'
-import api from './api/index'
+import React from 'react'
+import { Route, Switch, Redirect } from 'react-router-dom'
+
+import Navbar from './components/navbar'
+import Main from './layouts/main'
+import Login from './layouts/login'
+import Users from './layouts/users'
 
 const App = () => {
-    const [users, setUsers] = useState()
-    useEffect(() => {
-        api.users.fetchAll().then((data) => {
-            setUsers(data)
-        })
-    }, [])
-    const handleDelete = (userId) => {
-        setUsers((prevState) => prevState.filter((user) => user._id !== userId))
-    }
-    const handleToggleBookmark = (id) => {
-        setUsers((prevState) =>
-            prevState.map((user) =>
-                user._id === id ? { ...user, bookmark: !user.bookmark } : user
-            )
-        )
-    }
     return (
-        <div className="container-fluid">
-            {users && (
-                <Users
-                    users={users}
-                    onDelete={handleDelete}
-                    onToggleBookmark={handleToggleBookmark}
-                />
-            )}
+        <div className='container-fluid'>
+            <Navbar/>
+            <Switch>
+                <Route path='/users/:userId?' component={Users}/>
+                <Route path='/login' component={Login}/>
+                <Route path='/' exact component={Main}/>
+                <Redirect to='/' />
+            </Switch>
         </div>
     )
 }
