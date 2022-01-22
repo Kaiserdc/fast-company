@@ -9,12 +9,14 @@ import UsersTable from './usersTable'
 import _ from 'lodash'
 
 const UsersList = () => {
-    const [currentPage, setCurrentPage] = useState(1)
+    const [users, setUsers] = useState()
     const [professions, setProfession] = useState()
+    const pageSize = 4
+    const [currentPage, setCurrentPage] = useState(1)
     const [selectedProf, setSelectedProf] = useState()
     const [sortBy, setSortBy] = useState({ path: 'name', order: 'asc', isSorted: false })
-    const pageSize = 4
-    const [users, setUsers] = useState()
+    const [searchTerm, setSearchTerm] = useState()
+    
     useEffect(() => {
         api.users.fetchAll().then((data) => {
             setUsers(data)
@@ -38,11 +40,27 @@ const UsersList = () => {
         setCurrentPage(1)
     }, [selectedProf])
     
-    const filteredUsers = selectedProf
+    useEffect(() => {
+        setCurrentPage(1)
+    }, [searchTerm])
+    
+    const usersFilterResult = users && selectedProf
         ? users.filter(
             (user) => JSON.stringify(user.profession) === JSON.stringify(selectedProf),
         )
         : users
+    
+    const usersSearchResult = users && searchTerm
+        ? users.filter(
+            user => {
+                return user.name.toLowerCase().includes(searchTerm.toLowerCase())
+            })
+        : users
+    
+    console.log(usersSearchResult)
+    const filteredUsers = users && usersFilterResult.length < usersSearchResult.length
+        ? usersFilterResult
+        : usersSearchResult
     
     if (users) {
         const count = filteredUsers.length
@@ -50,16 +68,19 @@ const UsersList = () => {
         const userCrop = paginate(sortedUsers, currentPage, pageSize)
         const handlePageChange = (pageIndex) => setCurrentPage(pageIndex)
         
-        const handleProfessionSelect = (item) => {
-            setSelectedProf(item)
+        const clearFilter = (handler) => {
+            handler()
         }
-        
         const handleSort = (item) => {
             setSortBy(item)
         }
-        
-        const clearFilter = () => {
-            setSelectedProf()
+        const handleProfessionSelect = (item) => {
+            clearFilter(setSearchTerm)
+            setSelectedProf(item)
+        }
+        const handleSearch = ({ target }) => {
+            clearFilter(handleProfessionSelect)
+            setSearchTerm(target.value)
         }
         
         return (
@@ -83,6 +104,16 @@ const UsersList = () => {
                 )}
                 <div className={'col-md-9'}>
                     <SearchStatus length={count}/>
+                    <div className="my-3">
+                        <input
+                            type="text"
+                            className="form-control"
+                            id="searchInput"
+                            placeholder="Search user"
+                            value={searchTerm}
+                            onChange={handleSearch}
+                        />
+                    </div>
                     {count > 0 && (
                         <UsersTable
                             users={userCrop}
