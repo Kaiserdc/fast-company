@@ -68,18 +68,18 @@ const UsersList = () => {
         const userCrop = paginate(sortedUsers, currentPage, pageSize)
         const handlePageChange = (pageIndex) => setCurrentPage(pageIndex)
         
-        const clearFilter = (handler) => {
-            handler()
+        const clearFilter = () => {
+            setSelectedProf()
         }
         const handleSort = (item) => {
             setSortBy(item)
         }
         const handleProfessionSelect = (item) => {
-            clearFilter(setSearchTerm)
+            if (searchTerm !== '') setSearchTerm('')
             setSelectedProf(item)
         }
         const handleSearch = ({ target }) => {
-            clearFilter(handleProfessionSelect)
+            if (selectedProf) setSelectedProf()
             setSearchTerm(target.value)
         }
         
